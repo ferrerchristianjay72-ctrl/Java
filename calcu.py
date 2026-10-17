@@ -1,4 +1,3 @@
-"""iPhone-inspired calculator with a safe arithmetic evaluator."""
 
 import ast
 import operator
@@ -147,6 +146,35 @@ class CalculatorApp:
             button.delete("all")
             width = max(button.winfo_width(), 1)
             height = max(button.winfo_height(), 1)
+            diameter = max(1, min(height - 4, width - 4))
+            top = (height - diameter) / 2
+
+            if label == "0":
+                left = 2
+                right = width - 2
+                radius = diameter / 2
+                button.create_rectangle(
+                    left + radius, top, right - radius, top + diameter,
+                    fill=colors[kind], outline=""
+                )
+                button.create_oval(
+                    left, top, left + diameter, top + diameter,
+                    fill=colors[kind], outline=""
+                )
+                button.create_oval(
+                    right - diameter, top, right, top + diameter,
+                    fill=colors[kind], outline=""
+                )
+                text_x = width / 2
+            else:
+                left = (width - diameter) / 2
+                button.create_oval(
+                    left, top, left + diameter, top + diameter,
+                    fill=colors[kind], outline=""
+                )
+                text_x = width / 2
+
+            font_size = max(15, min(22, int(diameter * 0.34)))
             inset = 3
             button.create_rectangle(
                 inset,
@@ -158,6 +186,7 @@ class CalculatorApp:
             )
             font_size = max(15, min(22, int(min(height, width / span) * 0.34)))
             button.create_text(
+                text_x,
                 width / 2,
                 height / 2,
                 text=label,
